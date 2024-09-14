@@ -38,11 +38,29 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import { useState } from "react";
 
 export const description =
   "A products dashboard with a sidebar navigation and a main content area. The dashboard has a header with a search input and a user menu. The sidebar has a logo, navigation links, and a card with a call to action. The main content area shows an empty state with a call to action.";
 
 export function UserDashboard() {
+  // State to track which component to display
+  const [activeComponent, setActiveComponent] = useState("Profile");
+
+  // Function to handle component selection
+  const renderComponent = () => {
+    switch (activeComponent) {
+      case "Analytics":
+        return <h1>Analytics</h1>;
+      case "AvailableExams":
+        return <h1>Available Exams</h1>;
+      case "TakenExams":
+        return <h1>Taken Exams</h1>;
+      case "Profile":
+      default:
+        return <h1>Default</h1>;
+    }
+  };
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -64,6 +82,7 @@ export function UserDashboard() {
               </Link>
               <Link
                 href="#"
+                onClick={() => setActiveComponent("Analytics")}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <LineChart className="h-4 w-4" />
@@ -243,23 +262,8 @@ export function UserDashboard() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          <div className="flex items-center">
-            <h1 className="text-lg font-semibold md:text-2xl">Inventory</h1>
-          </div>
-          <div
-            className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-            x-chunk="dashboard-02-chunk-1"
-          >
-            <div className="flex flex-col items-center gap-1 text-center">
-              <h3 className="text-2xl font-bold tracking-tight">
-                You have no products
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                You can start selling as soon as you add a product.
-              </p>
-              <Button className="mt-4">Add Product</Button>
-            </div>
-          </div>
+          {/* Render the selected component */}
+          {renderComponent()}
         </main>
       </div>
     </div>
